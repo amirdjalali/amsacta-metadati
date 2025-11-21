@@ -1,0 +1,39 @@
+site_name: Mappatura metadati AMS Acta - DataCite e OpenAIRE
+
+nav:
+  - Home: index.md
+  - Considerazioni generali: considerazioni.md 
+  - Proprietà DataCite: proprieta-datacite.md
+  - Proprietà OpenAIRE: proprieta-openaire.md
+  - Mappatura ResourceType: resource-types.md
+  - Eventuali aggiornamenti futuri: eventuali.md
+
+theme: 
+  name: material
+  language: it
+  palette:
+    scheme: default
+    primary: deep purple
+  navigation_depth: 
+  features:
+    - navigation.instant
+    - content.code.copy
+
+markdown_extensions:
+  - toc:
+      baselevel: 3
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  
+plugins:
+  - to-pdf:
+      author: AlmaDL
+      cover_subtitle: 31 ottobre 2025
+      #download_link: header
