@@ -1,6 +1,23 @@
 # Proprietà di Openaire
 
-La descrizione delle proprietà si trova [qui](https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/application_profile.html).
+La descrizione delle proprietà si trova [qui](https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/stable/application_profile.html).
+
+# 0. Resource
+
+Gli schemi e i namespace utilizzati devono essere dichiarati in questo modo
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:resource xmlns:oaire="http://namespace.openaire.eu/schema/oaire/" 
+                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                    xmlns:dc="http://purl.org/dc/elements/1.1/"
+                    xmlns:dcterms="http://purl.org/dc/terms/"
+                    xmlns:datacite="http://datacite.org/schema/kernel-4"
+                    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+                    xsi:schemaLocation="http://namespace.openaire.eu/schema/oaire/ https://www.openaire.eu/schema/repo-lit/4.0/openaire.xsd"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    ```
 
 # 1. Title (M)
 
@@ -31,7 +48,7 @@ Al momento il titolo non è duplicabile. Non utilizziamo l'attributo ```titleTyp
 
 I creators e le sottoproprietà sono presi dal campo ```creators```. Il ROR non è ancora previsto dallo schema di OpenAIRE nella versione stabile 4.0.1. La [beta di sviluppo](https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/latest/field_creator.html) include già il ROR. Possiamo già includerlo, dato che abbiamo già il metadato per [DataCite](proprieta-datacite.md#2-creator)? Chiediamo a OpenAIRE?
 
-Al contraro di [Datacite](proprieta-datacite.md#2-creator), il campo Creator in OpenAIRE non è sempre obbligatorio ("mandatory if applicable").
+Mappare editors quando non ci sono creator |||||||||||||||||||||||||||||
 
 === "AMS Acta json"
 
@@ -68,7 +85,7 @@ Al contraro di [Datacite](proprieta-datacite.md#2-creator), il campo Creator in 
     ```xml
     <datacite:creators>
         <datacite:creator>
-            <datacite:creatorName>Baldassarro, Vito Antonio</datacite:creatorName>
+            <datacite:creatorName nametype="personal">Baldassarro, Vito Antonio</datacite:creatorName>
             <datacite:givenName>Baldassarro</datacite:givenName>
             <datacite:familyName>Vito Antonio</datacite:familyName>
             <datacite:affiliation>University of Bologna</datacite:affiliation>
@@ -212,7 +229,7 @@ Mantenere nella lista
 Funder
 ```
 
-Nello schema di OpenAIRE non c'è ```Translator```, ma lo aggiungerei lo stesso (forse dovremmo segnalarlo?).
+Nello schema di OpenAIRE non c'è ```Translator```, ma lo aggiungerei lo stesso (forse dovremmo segnalarlo?). Cosa succede ad OpenAIRE 4 se usiamo questo valore?
 
 <!--
 L'[ultima versione (ancora in beta)](https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/latest/field_contributor.html) introduce anche questi ruoli dalla National Information Standards Organization (NISO). Valutare se aggiungerli o attendere.
@@ -247,7 +264,7 @@ Versione che possiamo mappare con i metadati attualmente disponibili, in attesa 
     "projectacronym": "ISW"
     ```
 
-=== "DataCite xml"
+=== "OpenAIRE xml"
 
     ```xml
     <oaire:fundingReferences>
@@ -275,9 +292,9 @@ Come dovrebbe essere esposto.
     </oaire:fundingReferences>
     ```
 
-Mappatura dei metadati di AMS Acta con le sottoproprietà di DataCite
+Mappatura dei metadati di AMS Acta con le sottoproprietà di OpenAIRE
 
-| Metadato di AMS ACTA  | Sottoproprietà DataCite |
+| Metadato di AMS ACTA  | Sottoproprietà OpenAIRE |
 |-----------------------|-------------------------|
 | projectid             |  awardNumber            |
 | funder                |  funderName             |
@@ -296,6 +313,8 @@ Questa API non espone il ```funderIdentifier``` e l'```awardURI```.
 
 Per i progetti della Commissione Europea, ```awardURI``` può essere ricostruito nella forma ```https://cordis.europa.eu&project/ID/<projectid>```, oppure ```https://doi.org/10.3030/10.<projectID>```.
 
+## Evolutive future
+
 Il Funder Identifier si potrebbe prendere da una tabella interna, o dalle API del [Crossref Funder registry](https://www.crossref.org/services/funder-registry/).
 
 Ad oggi, OpenAIRE fornisce metadati per diversi funders (non solo European Commission). Valutiamo se aggiungere la possibilità di avere la ricerca automatica del progetto anche per altri enti finanziatori.
@@ -304,8 +323,11 @@ Il campo dovrebbe essere duplicabile nella maschera di inserimento. Il campo dev
 
 # 5. Alternate Identifier (R)
 
-Il DOI non deve essere mappato qui, ma nella sezione [Resource Identifier](#14-resource-identifier). Aggiornare la lista degli alternateIdentifierType. Ecco la lista
+Il DOI non deve essere mappato qui, ma nella sezione [Resource Identifier](#14-resource-identifier-m). Aggiornare la lista degli alternateIdentifierType. Per la lista degli alternate idetifier type vedi la lista di [DataCite](proprieta-datacite.md#11-alternateidentifier).
 
+Aggiungere alla lista degli identifcativi alternativi ```Local accession number``` e ```Scopus ID```.
+
+<!--
 ```text
 ARK
 arXiv
@@ -328,7 +350,7 @@ URL
 URN
 WOS
 ```
-<!--
+
 ```
 w3id
 Local accession number
@@ -368,8 +390,8 @@ In aggiunta, per le monografie aggiungere l'ISBN, quando è presente.
 
 # 6. Related Identifier (R)
 
-La lista controllata è la stessa di [Alternate Identifier](#5-alternate-identifier-r).
-
+La lista controllata è la stessa usata per [DataCite](proprieta-datacite.md#12-relatedidentifiers), senza gli identificativi specificati sotto.
+<!--
 ```text
 ARK
 arXiv
@@ -429,8 +451,8 @@ La lista delle relazioni è
 | Esistente | IsSourceOf            | This upload is source of                 | Questo contributo è una fonte di                  |
 | Nuovo     | IsRequiredBy          | This upload is required by               | Questo contributo è richiesto da                  |
 | Nuovo     | Requires              | This upload requires                     | Questo contributo richiede                        |
-
-Sono le stesse di [DataCite](proprieta-datacite.md#12-relatedidentifiers), senza queste. Dovremmo mappare questi valori su altri valori ammessi?
+-->
+Le seguenti relazioni sono presenti in datacite ma non in OpenAIRE? I campi con questi valori potrebbero dare problemi? Chiedere a OpenAIRE.
 
 | Stato     | relationType          | Etichetta EN                             | Etichetta IT                                      |
 |-----------|-----------------------|------------------------------------------|---------------------------------------------------|
@@ -442,6 +464,8 @@ Sono le stesse di [DataCite](proprieta-datacite.md#12-relatedidentifiers), senza
 | Nuovo     | HasTranslation        | This upload has a translation            | Questo contributo è tradotto in                   |
 
 Esempio di mappatura dei ```relatedId``` e dei singoli file.
+
+Mappare i singoli file con ```relationType="HasPart"``` le nuove o le precedenti versioni con ```relationType="IsNewVersionOf"``` o ```"IsPreviousVersionOf"```.
 
 === "AMS Acta json"
 
@@ -465,7 +489,7 @@ Esempio di mappatura dei ```relatedId``` e dei singoli file.
     }
     ```
 
-=== "DataCite xml"
+=== "OpenAIRE xml"
 
     ```xml
     <datacite:relatedIdentifiers>
@@ -475,7 +499,7 @@ Esempio di mappatura dei ```relatedId``` e dei singoli file.
     </datacite:relatedIdentifiers>       
     ```
 
-Per i capitoli di libro, oltre a ISBN e link ai fulltext
+Per i capitoli di libro, aggiungere ISBN del volume con ```relationType="IsPublishedIn"```.
 
 === "AMS Acta json"
 
@@ -486,16 +510,15 @@ Per i capitoli di libro, oltre a ISBN e link ai fulltext
     },
     "issn": "2035-553X"
     ```
-=== "DataCite xml"
+=== "OpenAIRE xml"
 
     ```xml
     <datacite:relatedIdentifiers>
         <datacite:relatedIdentifier relatedIdentifierType="ISBN" relationType="IsPublishedIn">9788854971844</datacite:relatedIdentifier>
-        <datacite:relatedIdentifier relatedIdentifierType="ISSN" relationType="IsPartOf">2035-553X</datacite:relatedIdentifier>
     </datacite:relatedIdentifiers>
     ```
 
-Per i libri in collana, oltre a ISBN e link ai fulltext
+Per i libri in collana, aggiungere ISSN della collana con ```relationType="IsPartOf"```
 
 === "AMS Acta json"
 
@@ -516,7 +539,7 @@ Per i libri in collana, oltre a ISBN e link ai fulltext
 
 # 7. Embargo Period date (MA)
 
-Come per [DataCite](proprieta-datacite.md#8-date), la data di embargo viene mappata sul campo ```dates```.
+Come per [DataCite](proprieta-datacite.md#8-date), per ogni file, se esiste una data di embargo (```documents.date_embargo``` o ```documents.date_embargo_retained```), la data di embargo viene mappata sul campo ```dates``` con l'attributo ```dateType="Available"```. <!--- la proprietà [Access Rights](#15-access-rights-m) deve essere "embargoed access".--->
 
 === "AMS Acta json"
 
@@ -535,10 +558,19 @@ Come per [DataCite](proprieta-datacite.md#8-date), la data di embargo viene mapp
 
     ```xml
     <datacite:dates>
-    <datacite:date dateType="Accepted">2025-05-23</datacite:date>
+    <datacite:date dateType="Accepted">2025-05-23T14:10:15Z</datacite:date>
     <datacite:date dateType="Available">2025-06-30</datacite:date>
     </datacite:dates>
     ```
+
+Le date, seguendo le indicazioni riportate [qui](https://www.w3.org/TR/NOTE-datetime) possono essere esposte nei seguenti formati:
+
+```
+YYYY
+YYYY-MM
+YYYY-MM-DD
+YYYY-MM-DDTHH:MM:SSZ (i datestamp di AMS Acta sono già espressi in UTC)
+```
 
 # 8. Language (MA)
 
@@ -587,16 +619,13 @@ Valutare in futuro se aggiungere il ROR dell'editore.
 
 # 10. Publication Date (M)
 
-Se è presente ```"datetype": "published"```, usiamo il campo ```date```, altrimenti, usiamo ```datestamp``` senza l'ora.
+Usiamo il campo ```date```.
 
 === "AMS Acta json" 
 
     ```json
     {
         "date": "2025-05-01",
-        "date_type": "published",
-        "datestamp": "2025-05-23 14:10:15",
-        ]
     }
     ```
 
@@ -650,7 +679,8 @@ Per ogni allegato, specificare il MIME type.
         {
           "mime_type": "application/zip",
         }
-    }    
+        ]
+    }
     ]
     ```
 
@@ -682,16 +712,16 @@ Utilizziamo il campo ```doi```.
 
 Il campo non è moltiplicabile e deve descrivere la risorsa principale.
 
-Laddove esista almeno un file che presenti i metadati ```document.date_embargo``` o ```document.date_embargo_retained```, allora il valore deve essere ```embargoed access```.
+Laddove esista almeno un documento che presenti i metadati ```document.date_embargo``` o ```document.date_embargo_retained```, allora il valore deve essere ```embargoed access```.
 
 === "AMS Acta json" 
 
     ```json
     "documents": [
-    {
-      "date_embargo": "2026-04-01",
-      "date_embargo_retained": "2026-04-01",
-    }
+        {
+            "date_embargo": "2026-04-01",
+            "date_embargo_retained": "2026-04-01",
+        }
     ]
     ```
 
@@ -701,8 +731,102 @@ Laddove esista almeno un file che presenti i metadati ```document.date_embargo``
     <datacite:rights rightsURI="http://purl.org/coar/access_right/c_f1cf">embargoed access</datacite:rights>
     ```
 
-Come fare per capire quali record sono in accesso aperto o chiuso quando i file nello stesso record possono avere diritti di accesso diversi? Come facciamo ora?
+Se il file più pesante è chiuso (```"security": "staffonly",```), allora esponiamo il record come ```restricted access```.
 
+=== "AMS Acta json"
+
+    ```json
+    "documents": [
+    {
+        "security": "staffonly",
+        "files": [
+        {
+            "filesize": 4548526,
+        }
+        ],
+    }
+    {
+        "security": "public",
+        "files": [
+        {
+            "filesize": 1985,
+        }
+        ]
+    }
+    ]
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <datacite:rights rightsURI="http://purl.org/coar/access_right/c_16ec">restricted access</datacite:rights>
+    ```
+
+
+<!--Al momento, se almeno un file è aperto consideriamo il record aperto. Ad esempio, per il record [8128](https://amsacta.unibo.it/8128).
+
+```xml
+    <dc:rights>info:eu-repo/semantics/openAccess</dc:rights>
+```
+
+Forse dovremmo fare il contrario. Se almeno un file è ad accesso riservato, e se non esistono ```document.date_embargo``` o ```document.date_embargo_retained```, allora tutto il record deve risultare ad accesso riservato.
+
+=== "AMS Acta json"
+    
+    ```json
+    {
+        "documents": [
+            {
+                "security": "staffonly"
+            }
+            {
+                "security": "public"
+            }
+        ]
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+         <datacite:rights rightsURI="http://purl.org/coar/access_right/c_16ec">restricted access</datacite:rights>
+    ```
+-->
+Se abbiamo il valore ```"full_text_status": "none"``` allora il documento è in modalità ```medatadata only access```.
+
+=== "AMS Acta json"
+    
+    ```json
+    {
+        "full_text_status: "none"
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+         <datacite:rights rightsURI="http://purl.org/coar/access_right/c_14cb">metadata only access</datacite:rights>
+    ```
+
+Altrimenti, la risorsa è in accesso aperto
+
+=== "AMS Acta json"
+    
+    ```json
+    {
+        "documents": [
+            {
+                "security": "public"
+            }
+        ]
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+         <datacite:rights rightsURI="http://purl.org/coar/access_right/c_abf2">open access</datacite:rights>
+    ```
 
 # 16. Source (R)
 
@@ -750,7 +874,7 @@ I settori scientifico-disciplinari e gli ERC panel dovrebbero fare riferimento a
     </datacite:subjects>
     ```
 
-    === "OpenAIRE xml (ottimale)"
+=== "OpenAIRE xml (ottimale)"
 
     ```xml
     <datacite:subjects>
@@ -766,11 +890,12 @@ I settori scientifico-disciplinari e gli ERC panel dovrebbero fare riferimento a
         <datacite:subject xml:lang="en" subjectScheme="Vocabolario Controllato 2019 ERC EVALUATION PANEL e KEYWORD" schemeURI="https://w3id.org/italia/controlled-vocabulary/classifications-for-her/erc-panel-h2020-fp" valueURI="https://w3id.org/italia/controlled-vocabulary/classifications-for-her/erc-panel-h2020-fp/SH2-11">SH2-11 Human, economic and social geography</datacite:subject>
     </datacite:subjects>
     ```
+
 # 18. License Condition (R)
 
-Deve essere un valore unico. Scegliamo la licenza del primo file. Come ```startDate``` utilizziamo, in ordine ```documents.date_embargo```, ```documents.date_embargo_retained```, oppure ```datestamp```
+Deve essere un valore unico. Scegliamo la licenza del file più pesante. Come ```startDate``` utilizziamo, in ordine ```documents.date_embargo```, ```documents.date_embargo_retained```, oppure ```datestamp```.
 
-=== "AMS Acta json" 
+=== "AMS Acta json"
 
     ```json
     {
@@ -797,6 +922,8 @@ Deve essere un valore unico. Scegliamo la licenza del primo file. Come ```startD
     <oaire:licenseCondition startDate="" uri="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</oaire:licenseCondition>
     ```
 
+Questo sistema genera incongruenze, ad esempio nel caso di [8128](https://amsacta.unibo.it/8128), che risulterebbe ad accesso riservato ma con licenza CC0.
+
 # 19. Coverage (r)
 
 Non lo esponiamo.
@@ -806,6 +933,7 @@ Non lo esponiamo.
 Per ogni allegato, specificare la dimensione in byte.
 
 === "AMS Acta json" 
+
     ```json
         "pages": 78
         "documents": [
@@ -820,6 +948,7 @@ Per ogni allegato, specificare la dimensione in byte.
     ```
     
 === "OpenAIRE xml"
+
     ```xml
     <datacite:sizes>
         <datacite:size>34649250</datacite:size>
@@ -829,11 +958,33 @@ Per ogni allegato, specificare la dimensione in byte.
 
 # 21. Geo Location (O)
 
-Non lo esponiamo.
+Per ora esponiamo solo la sottoproprietà ```datacite:geoLocationPlace``` (testo libero).
+
+=== "AMS Acta json"
+
+    ```json
+    "geolocplace": [
+        {
+        "place": "Bologna, Italy"
+        }
+    ],
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <datacite:geoLocations>
+        <datacite:geoLocation>
+            <datacite:geoLocationPlace>Bologna, Italy</datacite:geoLocationPlace>
+        </datacite:geoLocation>
+    </datacite:geoLocations>
+    ```
 
 # 22. Resource Version (R)
 
 Decidere se esporre seguendo le indicazioni [qui](https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_resourceversion.html).
+
+Se vogliamo introdurre il sistema di open peer review occorre creare un nuovo metadato ed esporlo in questo campo.
 
 # 23. File Location (MA)
 
@@ -848,11 +999,9 @@ Per l'attributo ```accessRightsUri```, usare i seguenti valori.
 | http://purl.org/coar/access_right/c_16ec | restricted access    |
 | http://purl.org/coar/access_right/c_14cb | metadata only access |
 
-Non abbiamo record ```metadata only access```.
+Se abbiamo ```document.security: "staffonly"``` e ```document.date_embargo``` o ```date_embargo_retained```esistono, allora scegliamo ```embargoed access```.
 
-Se abbiamo ```document.security: staffonly``` e ```document.date_embargo``` o ```date_embargo_retained```esistono, allora scegliamo ```embargoed access```.
-
-Se abbiamo solo ```security: staffonly``` allora scegliamo ```restricted access```.
+Se abbiamo ```document.security: "staffonly"``` allora scegliamo ```restricted access```.
 
 Altrimenti, scegliamo ```open access```.
 
@@ -862,6 +1011,7 @@ Per l'attributo ```objectType``` scegliamo
 - ```software``` per ```type: software``` (anche per i readme file)
 - ```fulltext``` tutte le altre tipologie.
 
+<!--
 EPrints aggiunge automaticamente alcuni documenti (preview e thumbnails) quando si aggiungono file PDF (o immagine?). Questi file si riconoscono attraverso il campo ```documents.formatdesc``` e ```documents.main```. Escludiamo questi file dalla mappatura. Ecco i casi che ho trovato (potrebbero essercene di più).
 
 ```
@@ -879,8 +1029,9 @@ Il nome di questi file è rispettivamente
 "main": "small.jpg"
 "main": "medium.jpg"
 ```
+-->
 
-Esempio embargo
+Esempio ```embargoed_access```
 
 === "AMS Acta json"
 
@@ -908,3 +1059,273 @@ Esempio embargo
         <oaire:file accessRightsURI="http://purl.org/coar/access_right/c_f1cf" mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" objectType="dataset">https://amsacta.unibo.it/id/document/23220319</oaire:file>
     ```
 
+Esempio ```restricted access``` e ```open_access```
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "eprintid": 7552,
+        "documents": [
+            {
+                "security": "staffonly",
+                "language": "en",
+                "mime_type": "application/zip",
+                "uri": "https://amsacta.unibo.it/id/document/15570485",
+                "files": [
+                    {
+                        "mime_type": "application/zip",
+                        "uri": "https://amsacta.unibo.it/id/file/15643966",
+                    }
+                ],
+            },
+            {
+                "uri": "https://amsacta.unibo.it/id/document/15570486",
+                "security": "public",
+                "mime_type": "application/vnd.oasis.opendocument.text",
+                "files": [
+                    {
+                    "filename": "Una.Resin_WP2_T2.2_benchmarking-questionnaire_template_20231103.odt",
+                    "mime_type": "application/vnd.oasis.opendocument.text",
+                    "uri": "https://amsacta.unibo.it/id/file/15643970"
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+        <oaire:file accessRightsURI="http://purl.org/coar/access_right/c_16ec" mimeType="application/zip" objectType="dataset">https://amsacta.unibo.it/id/document/15570485</oaire:file>
+        <oaire:file accessRightsURI="http://purl.org/coar/access_right/c_abf2" mimeType="application/zip" objectType="dataset">https://amsacta.unibo.it/id/document/15570486</oaire:file>
+    ```
+
+# 24. Citation Title (R)
+
+## Estratti da libro
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "type": "book_section",
+        "book_title": "Vol. 18/2025",
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationTitle>Vol. 18/2025</oaire:citationTitle>
+    ```
+
+## Documento relativo a evento
+
+Titolo dell'evento
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "type": "conference_item",
+        "event_title": "Simposio 2G-C",
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationTitle>Simposio 2G-C</oaire:citationTitle>
+    ```
+   
+## Articoli
+
+Titolo della rivista
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "type": "article",
+        "publication": "Psicologia di comunità"
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationTitle>Psicologia di comunità</oaire:citationTitle>
+    ```
+
+
+## Monografie
+
+Titolo della collana? (Aperta issue)
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "type": "monograph",
+        "series": "I Quaderni di Into the Black Box",
+
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationTitle>I Quaderni di Into the Black Box</oaire:citationTitle>
+    ```
+
+# 25. Citation Volume (R)
+
+## Estratti da libro
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "type": "book_section",
+        "volume": 18,
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationVolume>18</oaire:citationVolume>
+    ```
+
+## Articoli
+
+Numero del volume della rivista
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "type": "article",
+        "volume": 10,
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationVolume>77</oaire:citationVolume>
+    ```
+
+## Monografie
+
+Numero del volume nella collana?
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "type": "article",
+        "volume": 10,
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationVolume>77</oaire:citationVolume>
+    ```
+
+26. Citation Issue (R)
+
+## Articoli
+
+Numero del fascicolo della rivista.
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "type": "article",
+        "number": 10,
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationIssue>10</oaire:citationIssue>
+    ```
+
+27. Citation Start Page (R)
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "pagerange": "1-15"
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationStartPage>1</oaire:citationStartPage>
+    ```
+
+28. Citation End Page (R)
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "pagerange": "1-15"
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationEndPage>15</oaire:citationEndPage>
+    ```
+
+29. Citation Edition (R)
+
+Non ce lo abbiamo.
+
+30. Citation Conference Place (R)
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "event_location": "Bologna, Italy"
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationConferencePlace>Bologna, Italy</oaire:citationConferencePlace>
+    ```
+
+31. Citation Conference Date (R)
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "event_dates": "2-6 october 2000"
+    }
+    ```
+
+=== "OpenAIRE xml"
+
+    ```xml
+    <oaire:citationConferenceDate>2-6 october 2000</oaire:citationConferenceDate>
+    ```
+
+32. Audience (O)
+
+Non ce lo abbiamo

@@ -39,13 +39,13 @@ Privilegiare sempre la scelta di un valore per ```resourceTypeGeneral``` tra que
     }
     ```
 
-=== "DataCite xml"
+=== "DataCite"
 
     ```xml
     <resourceType resourceTypeGeneral="ConferenceProceeding"/>
     ```
 
-=== "OpenAIRE xml"
+=== "OpenAIRE"
 
     ```xml
     <oaire:resourceType resourceTypeGeneral="literature" uri="http://purl.org/coar/resource_type/c_5794">conference paper</oaire:resourceType>
@@ -62,13 +62,13 @@ Privilegiare sempre la scelta di un valore per ```resourceTypeGeneral``` tra que
     }
     ```
 
-=== "DataCite xml"
+=== "DataCite"
 
     ```xml
     <resourceType resourceTypeGeneral="Text">Conference Output</resourceType>
     ```
 
-=== "OpenAIRE xml"
+=== "OpenAIRE"
 
     ```xml
     <oaire:resourceType resourceTypeGeneral="literature" uri="http://purl.org/coar/resource_type/c_c94f">conference object</oaire:resourceType>
@@ -85,13 +85,13 @@ Privilegiare sempre la scelta di un valore per ```resourceTypeGeneral``` tra que
     }
     ```
 
-=== "DataCite xml"
+=== "DataCite"
 
     ```xml
     <resourceType resourceTypeGeneral="Text">Conference Output</resourceType>
     ```
 
-=== "OpenAIRE xml"
+=== "OpenAIRE"
 
     ```xml
     <oaire:resourceType resourceTypeGeneral="literature" uri="http://purl.org/coar/resource_type/c_6670">conference poster</oaire:resourceType>
@@ -480,7 +480,7 @@ Non c’è una categoria specifica per il working paper in DataCite, ma c'è in 
 
 # Articolo
 
-Possiamo scegliere tra ```[journal article](http://purl.org/coar/resource_type/c_6501)``` e ```[research article](http://purl.org/coar/resource_type/c_2df8fbb1)```
+Possiamo scegliere tra [journal article](http://purl.org/coar/resource_type/c_6501) e [research article](http://purl.org/coar/resource_type/c_2df8fbb1)
 
 === "AMS Acta json"
 
@@ -499,9 +499,29 @@ Possiamo scegliere tra ```[journal article](http://purl.org/coar/resource_type/c
 === "OpenAIRE"
 
     ```xml
-    <oaire:resourceType resourceTypeGeneral="literature" uri="http://purl.org/coar/resource_type/c_6501">journal article</oaire:resourceType>
+    <oaire:resourceType resourceTypeGeneral="literature" uri="http://purl.org/coar/resource_type/c_2df8fbb1">research article</oaire:resourceType>
     ```
 
 # Tesi
 
 Non sono presenti in archivio.
+
+=== "AMS Acta json"
+
+    ```json
+    {
+        "type": "thesis"
+    }
+    ```
+
+=== "DataCite"
+
+    ```xml
+    <resourceType resourceTypeGeneral="Text">Thesis</resourceType>
+    ```
+
+=== "OpenAIRE"
+
+    ```xml
+    <oaire:resourceType resourceTypeGeneral="literature" uri="http://purl.org/coar/resource_type/c_46ec">thesis</oaire:resourceType>
+    ```

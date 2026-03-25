@@ -21,3 +21,13 @@ Documentazione per la mappatura dei metadati di AMS Acta in DataCite.
 
 - Aggiornata la tabella dei riferimenti al vocabolario SPDX nella sezione [Rights](proprieta-datacite.md#16-rights) di DataCite.
 - Aggiunta indicazione del formato della data nella sezione [Dates](proprieta-datacite.md#8-date).
+
+## 2025-12-04
+
+- Completata la sezione delle proprietà OpenAIRE.
+- Aggiunto il documento [Domande Openaire](domande-openaire.md)
+- Aggiornata la proprietà GeoLocations in DataCite e OpenAIRE.
+
+## 2026-03-19
+
+- Integrata la sezione [Creator](proprieta-datacite.md#2-creator) di Datacite per l'implmenentazione delle organizzazioni.

@@ -38,7 +38,7 @@ Utilizziamo il campo ```doi```.
 
 ## 2. Creator
 
-I creators e le sottoproprietà sono presi dal campo ```creators```. Il campo ROR è stato aggiunto nel sito di sviluppo.
+I creators e le sottoproprietà sono presi dal campo ```creators```. Nel caso in cui esistano sia il campo ```given``` sia il campo ```family```, allora la proprietà ```creatorName``` deve avere l'attributo ```nameType="Personal"```
 
 === "AMS Acta json"
 
@@ -49,20 +49,20 @@ I creators e le sottoproprietà sono presi dal campo ```creators```. Il campo RO
         "affiliation": "University of Bologna",
         "orcid": "0000-0003-1020-4261",
         "name": {
-        "honourific": null,
-        "lineage": null,
-        "family": "Baldassarro",
-        "given": "Vito Antonio"
+            "honourific": null,
+            "lineage": null,
+            "family": "Baldassarro",
+            "given": "Vito Antonio"
         }
         },
         {
         "orcid": "0009-0004-0124-1110",
         "ror": "https://ror.org/01111rn36",
         "name": {
-        "honourific": null,
-        "lineage": null,
-        "given": "Quentin",
-        "family": "Brassart"
+            "honourific": null,
+            "lineage": null,
+            "given": "Quentin",
+            "family": "Brassart"
         },
         "affiliation": "Institute de Génétique et de Biologie Moléculaire et Cellulaire, Université de Strasbourg",
         "id": "brassarq@igbmc.fr"
@@ -75,7 +75,7 @@ I creators e le sottoproprietà sono presi dal campo ```creators```. Il campo RO
     ```xml
     <creators>
         <creator>
-            <creatorName>Baldassarro, Vito Antonio</creatorName>
+            <creatorName nameType="Personal">Baldassarro, Vito Antonio</creatorName>
             <givenName>Vito Antonio</givenName>
             <familyName>Baldassarro</familyName>
             <affiliation affiliationIdentifier="https://ror.org/03efmqc40" affiliationIdentifierScheme="ROR" schemeURI="https://ror.org">University of Bologna</affiliation>
@@ -87,6 +87,33 @@ I creators e le sottoproprietà sono presi dal campo ```creators```. Il campo RO
             <familyName>Brassart</familyName>
             <affiliation affiliationIdentifier="https://ror.org/00pg6eq24" affiliationIdentifierScheme="ROR" schemeURI="https://ror.org">, Université de Strasbourg</affiliation>
             <nameIdentifier schemeURI="http://orcid.org/" nameIdentifierScheme="ORCID" >0009-0004-0124-1110</nameIdentifier>
+        </creator>
+    </creators>
+    ```
+
+Nel caso in cui sia presente solo il cognome, allora ```nameType``` è ```"Organizational"```.
+
+=== "AMS Acta json"
+    
+    ```json
+    "creators": {
+        "name": {
+            "lineage": null,
+            "given": null,
+            "honourific": null,
+            "family": "Università degli Studi di Bologna"
+        },
+        "ror": "https://ror.org/01111rn36"
+    }
+    ```
+
+=== "DataCite XML"
+
+    ```xml
+    <creators>
+        <creator>
+            <creatorName nameType="Organizational">Università degli Studi di Bologna</creatorName>
+            <nameIdentifier schemeURI="http://orcid.org/" nameIdentifierScheme="ROR">https://ror.org/01111rn36</nameIdentifier>
         </creator>
     </creators>
     ```
@@ -545,34 +572,6 @@ Il campo ```curators``` va invece mappato nella proprietà [relatedItem](#20-rel
             "affiliation": "Università di Urbino"
         }
         ],
-        ////////////////////////////////////////////////
-        ///////// CHI SONO? PERCHÉ CI SONO?? ///////////
-        ////////////////// IGNORARE ////////////////////
-        ////////////////////////////////////////////////
-        "book_curators": [
-        {
-            "orcid": "0000-0002-5321-7428",
-            "name": {
-            "lineage": null,
-            "family": "Faralli",
-            "given": "Carla",
-            "honourific": null
-            },
-            "affiliation": "Università di Bologna",
-            "id": "carla.faralli@unibo.it"
-        },
-        {
-            "affiliation": "Università di Urbino",
-            "name": {
-            "honourific": null,
-            "family": "Mittica",
-            "given": "M. Paola",
-            "lineage": null
-            },
-            "orcid": "0000-0003-4352-4288",
-            "id": "maria.mittica@uniurb.it"
-        }
-        ],
     }
     ```
 
@@ -677,31 +676,6 @@ Altro esempio, AMS Acta 5562
             "id": "maria.mittica@uniurb.it"
         }
         ],
-        "series_curators": [ // ignorare?
-        {
-            "name": {
-                "honourific": null,
-                "lineage": null,
-                "family": "Faralli",
-                "given": "Carla"
-            },
-            "orcid": "0000-0002-5321-7428",
-            "affiliation": "Università di Bologna",
-            "id": "carla.faralli@unibo.it"
-        },
-        {
-            "affiliation": "Università di Urbino",
-            "orcid": "0000-0003-4352-4288",
-            "name": {
-                "family": "Mittica",
-                "given": "M. Paola",
-                "lineage": null,
-                "honourific": null
-            },
-            "id": "maria.mittica@uniurb.it"
-        }
-        ],
-
     }
     ```
 
@@ -939,7 +913,7 @@ La tabella riassume le mappature dei metadati.
 | dateType          | metadato                                                |
 |-------------------|---------------------------------------------------------|
 | Issued            | ```"datetype": "published"```                           |
-| Submitted         | ```"datetype": "published"```                           |
+| Submitted         | ```"datetype": "submitted"```                           |
 | Created           | ```"datetype": "completed"```                           |
 | Accepted          | ```"datestamp"```                                       |
 | Available         | ```"documents.date_embargo_retained"```, altrimenti ```"documents.date_embargo"``` |
@@ -1010,7 +984,7 @@ Vedi [sezione](resource-types.md)
 
 ## 11. AlternateIdentifier
 
-AlternateIdentifierType è un campo libero. Come lista possiamo usare quella di [OpenAIRE](proprieta-openaire.md#5-alternate-identifier). Il DOI deve essere mappato con la proprietà [Identifier](#1-identifier).
+AlternateIdentifierType è un campo libero. Come lista possiamo usare quella di [OpenAIRE](proprieta-openaire.md#5-alternate-identifier-r). Il DOI deve essere mappato con la proprietà [Identifier](#1-identifier).
 
 <!--
 ```text
@@ -1396,7 +1370,27 @@ Mappare il campo abstract. Il campo della lingua viene preso dalla lingua del pr
 
 ## 18. GeoLocations
 
-Non lo esponiamo, per ora.
+Per ora esponiamo solo la sottoproprietà geoLocationPlace (testo libero).
+
+=== "AMS Acta json"
+
+    ```json
+    "geolocplace": [
+        {
+        "place": "Bologna, Italy"
+        }
+    ],
+    ```
+
+=== "DataCite xml"
+
+    ```xml
+    <geoLocations>
+    <geoLocation>
+        <geoLocationPlace>Disko Bay</geoLocationPlace>
+    </geoLocation>
+    </geoLocations>
+    ```
 
 ## 19. FundingReferences
 
@@ -1445,7 +1439,7 @@ Come dovrebbe essere
     </fundingReferences>
     ```
 
-Metadato che non serve per DataCite ma servirà per [Openaire 4](proprieta-openaire.md#4-fundingreferences)
+Metadato che non serve per DataCite ma servirà per [Openaire 4](proprieta-openaire.md#4-fundingreferences-ma)
 
 | Metadato di AMS ACTA              | Sottoproprietà Openaire 4 |
 |-----------------------------------|---------------------------|
@@ -1493,8 +1487,6 @@ Mappare la relazione del capitolo con il libro. I metadati da utilizzare sono i 
             "name": {
                 "given": "Carla",
                 "family": "Faralli",
-                "lineage": null,
-                "honourific": null
             },
             "orcid": "0000-0002-5321-7428",
             "affiliation": "Università di Bologna",
@@ -1502,10 +1494,8 @@ Mappare la relazione del capitolo con il libro. I metadati da utilizzare sono i 
             },
             {
             "name": {
-                "lineage": null,
                 "family": "Mittica",
                 "given": "M. Paola",
-                "honourific": null
             },
             "orcid": "0000-0003-4352-4288",
             "affiliation": "Università di Urbino",

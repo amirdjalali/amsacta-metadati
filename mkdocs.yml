@@ -7,6 +7,7 @@ nav:
   - Proprietà OpenAIRE: proprieta-openaire.md
   - Mappatura ResourceType: resource-types.md
   - Eventuali aggiornamenti futuri: eventuali.md
+  - Domande Openaire: domande-openaire.md
 
 theme: 
   name: material
@@ -23,7 +24,7 @@ markdown_extensions:
   - toc:
       baselevel: 3
   - pymdownx.highlight:
-      anchor_linenums: true
+      #anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
@@ -33,7 +34,7 @@ markdown_extensions:
       alternate_style: true
   
 plugins:
-  - to-pdf:
-      author: AlmaDL
-      cover_subtitle: 31 ottobre 2025
-      #download_link: header
+#  - to-pdf:
+#      author: AlmaDL
+#      cover_subtitle: 16 dicembre 2025
+#      download_link: header
