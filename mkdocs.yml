@@ -19,6 +19,7 @@ theme:
   features:
     - navigation.instant
     - content.code.copy
+  custom_dir: overrides
 
 markdown_extensions:
   - toc:
