@@ -2,6 +2,8 @@
 
 ## Permettere che un autore sia anche una istituzione.
 
+*** FATTO ***
+
 Se l'autore può essere una istituzione, allora dobbiamo aggiungere l'attributo nameType (valori ammessi Personal e Organizational) al tag reatorName per indicare che si tratta di una persona o una istituzione.
 
 ```xml
